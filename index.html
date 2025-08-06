@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>Warsztat Samochodowy Piotr & Marian</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style>
+        body { font-family: 'Segoe UI', Arial, sans-serif; margin:0; padding:0; background: #f6f7fb; color: #232323; }
+        header { background: #20344c; color: #fff; box-shadow: 0 2px 12px #0002; }
+        nav { display: flex; justify-content: space-between; align-items: center; padding: 14px 0; }
+        .container { max-width: 1120px; margin: 0 auto; padding: 0 20px; }
+        .logo { font-size: 28px; font-weight: bold; letter-spacing: 1.5px; }
+        nav ul { list-style: none; display: flex; gap: 20px; margin: 0; padding: 0; }
+        nav ul li a { color: #fff; text-decoration: none; font-size: 17px; font-weight: 500; padding: 7px 16px; border-radius: 30px; transition: background .16s, color .16s; }
+        nav ul li a.active, nav ul li a:hover { background: #ffe570; color: #20344c; }
+        .hero { text-align: center; background: linear-gradient(120deg, #20344c 80%, #ffe570 100px); color: #fff; padding: 54px 0 34px 0; position: relative; overflow: hidden;}
+        .hero h1 { font-size: 38px; margin-bottom: 10px; }
+        .hero p { font-size: 21px; max-width: 500px; margin: 0 auto 18px auto; }
+        .hero img { width: 260px; border-radius: 22px; margin: 22px 0 0 0; box-shadow: 0 2px 12px #0003; }
+        main { min-height: 500px; }
+        .section { display: none; animation: fadein .6s; }
+        .section.active { display: block; }
+        @keyframes fadein { from { opacity:0; transform:translateY(35px);} to { opacity:1; transform:none;} }
+        .services-list, .price-list { display: flex; flex-wrap: wrap; gap: 32px; justify-content: center; margin-top: 30px; }
+        .service-card, .price-card { background: #fff; border-radius: 17px; box-shadow: 0 4px 18px #0001; padding: 26px 22px; min-width: 220px; max-width: 360px; text-align: center; position: relative; cursor: pointer; transition: box-shadow .2s, transform .2s; }
+        .service-card:hover, .price-card:hover { box-shadow: 0 8px 32px #20344c22; transform: translateY(-8px) scale(1.025);}
+        .service-card i { font-size: 36px; margin-bottom: 9px; color: #20344c; transition: color .2s; }
+        .service-card:hover i { color: #ffe570; }
+        .service-card h3 { font-size: 21px; margin-bottom: 9px; }
+        .service-card p { font-size: 16px; color: #555; }
+        .price-card img { width: 100%; border-radius: 14px; margin-bottom: 13px; box-shadow: 0 2px 12px #0002; }
+        .slider-wrap { position: relative; width: 100%; max-width: 320px; margin: 0 auto 10px auto; }
+        .slider-wrap img { width: 100%; border-radius: 12px; transition: opacity .5s; }
+        .slider-btns { display: flex; justify-content: center; gap: 10px; margin-bottom: 7px;}
+        .slider-btns button { background: #ffe570; border: none; padding: 4px 14px; border-radius: 30px; font-size: 14px; font-weight: bold; color: #20344c; cursor: pointer; transition: background .16s;}
+        .slider-btns button.active { background: #20344c; color: #ffe570; }
+        .price-card h4 { font-size: 19px; margin-bottom: 7px; }
+        .price-card p { font-size: 15px; margin-bottom: 6px; }
+        .price { font-weight: bold; color: #ffe570; font-size: 19px; }
+        .about-section { display: flex; flex-wrap: wrap; align-items: center; gap: 40px; margin-top: 40px; }
+        .about-img { flex: 1 1 240px; min-width: 180px; }
+        .about-img img { width: 100%; border-radius: 15px; box-shadow: 0 1px 10px #0002; }
+        .about-txt { flex: 2 1 350px; }
+        .about-txt h2 { color: #20344c; margin-bottom: 13px; }
+        .about-txt p { font-size: 17px; }
+        .contact { text-align: center; margin: 40px 0; }
+        .contact h3 { color: #20344c; }
+        .contact-info { font-size: 17px; margin-bottom: 8px; }
+        .contact-form input, .contact-form textarea { padding: 9px 14px; margin: 6px 0; width: 100%; border: 1px solid #ddd; border-radius: 6px; font-size: 15px; }
+        .contact-form button { background: #ffe570; color: #20344c; border: none; padding: 10px 24px; border-radius: 30px; font-weight: 600; margin-top: 10px; cursor: pointer; }
+        .contact-form button:hover { background: #ffd200; }
+        footer { background: #1a263a; color: #fff; text-align: center; padding: 25px 0 8px 0; margin-top: 50px; }
+        .footer-links a { color: #ffe570; margin: 0 10px; text-decoration: none; font-size: 15px; }
+        .footer-links a:hover { text-decoration: underline; }
+        .price-caption { font-size: 13px; color: #777; margin-top: 10px; }
+        .anim-in { animation: fadein .6s; }
+        @media (max-width: 700px) {
+            .services-list, .price-list { flex-direction: column; gap: 15px; }
+            .about-section { flex-direction: column; gap: 20px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav>
+                <span class="logo"><i class="fas fa-tools"></i> Piotr & Marian</span>
+                <ul>
+                    <li><a href="#" class="active" onclick="showSection('home', event)">Strona główna</a></li>
+                    <li><a href="#" onclick="showSection('services', event)">Usługi</a></li>
+                    <li><a href="#" onclick="showSection('price', event)">Cennik</a></li>
+                    <li><a href="#" onclick="showSection('about', event)">O nas</a></li>
+                    <li><a href="#" onclick="showSection('contact', event)">Kontakt</a></li>
+                </ul>
+            </nav>
+        </div>
+        <section class="hero">
+            <h1>Warsztat Samochodowy<br>Piotr & Marian</h1>
+            <p>Zadbaj o swoje auto z profesjonalistami! Naprawy, diagnostyka, serwis – szybko, uczciwie i w dobrej cenie.</p>
+            <img src= "Ferrari-812-SUPERFAST-sylwetka-1024x682.jpg" alt="Warsztat samochodowy">
+        </section>
+    </header>
+    <main class="container">
+        <section class="section active" id="home">
+            <div style="text-align:center; margin-top:35px;">
+                <h2>Witamy w naszym warsztacie!</h2>
+                <p>Jesteśmy rodzinnym warsztatem działającym od 1997 roku. Stawiamy na uczciwość, doświadczenie i najnowszą technologię. Obsługujemy wszystkie marki samochodów osobowych i dostawczych.<br>Zapraszamy!</p>
+            </div>
+        </section>
+        <section class="section" id="services">
+            <h2 style="text-align:center;">Nasze usługi</h2>
+            <div class="services-list">
+                <div class="service-card anim-in">
+                    <i class="fas fa-oil-can"></i>
+                    <h3>Wymiana oleju</h3>
+                    <p>Profesjonalna wymiana oleju silnikowego oraz filtrów z kontrolą poziomu i szczelności.</p>
+                </div>
+                <div class="service-card anim-in">
+                    <i class="fas fa-car-battery"></i>
+                    <h3>Diagnostyka komputerowa</h3>
+                    <p>Nowoczesny sprzęt do wykrywania i kasowania błędów. Szybka diagnoza usterek elektroniki.</p>
+                </div>
+                <div class="service-card anim-in">
+                    <i class="fas fa-snowflake"></i>
+                    <h3>Serwis klimatyzacji</h3>
+                    <p>Napełnianie, odgrzybianie, sprawdzanie szczelności i naprawa układów klimatyzacji.</p>
+                </div>
+                <div class="service-card anim-in">
+                    <i class="fas fa-brake-warning"></i>
+                    <h3>Wymiana klocków hamulcowych</h3>
+                    <p>Bezpieczna i szybka wymiana klocków oraz tarcz hamulcowych wraz z inspekcją układu.</p>
+                </div>
+                <div class="service-card anim-in">
+                    <i class="fas fa-tools"></i>
+                    <h3>Naprawy mechaniczne</h3>
+                    <p>Wymiana rozrządów, sprzęgieł, zawieszeń oraz naprawy bieżące – gwarancja solidności!</p>
+                </div>
+            </div>
+        </section>
+        <section class="section" id="price">
+            <h2 style="text-align:center;">Cennik usług</h2>
+            <div class="price-list">
+                <div class="price-card anim-in">
+                    <div class="slider-wrap">
+                        <div class="slider-btns">
+                            <button class="active" onclick="showSliderImg(this, 0, 0)">Przed</button>
+                            <button onclick="showSliderImg(this, 0, 1)">Po</button>
+                        </div>
+                        <img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=400&q=80" alt="Wymiana oleju przed" class="slider-img-0">
+                        <img src="https://images.unsplash.com/photo-1518717758536-85ae29035b6d?auto=format&fit=crop&w=400&q=80" alt="Wymiana oleju po" style="display:none;" class="slider-img-0">
+                    </div>
+                    <h4>Wymiana oleju + filtr</h4>
+                    <p>Olej + filtr + robocizna</p>
+                    <div class="price">od 120 zł</div>
+                    <div class="price-caption">Szybka usługa, kontrola szczelności, czystość!</div>
+                </div>
+                <div class="price-card anim-in">
+                    <div class="slider-wrap">
+                        <div class="slider-btns">
+                            <button class="active" onclick="showSliderImg(this, 1, 0)">Przed</button>
+                            <button onclick="showSliderImg(this, 1, 1)">Po</button>
+                        </div>
+                        <img src="https://images.unsplash.com/photo-1455656678494-4d1b5f3e7ad3?auto=format&fit=crop&w=400&q=80" alt="Diagnostyka przed" class="slider-img-1">
+                        <img src="https://images.unsplash.com/photo-1519681393-2de2fa5b7c8a?auto=format&fit=crop&w=400&q=80" alt="Diagnostyka po" style="display:none;" class="slider-img-1">
+                    </div>
+                    <h4>Diagnostyka komputerowa</h4>
+                    <p>Podłączenie komputera, wydruk błędów</p>
+                    <div class="price">70 zł</div>
+                    <div class="price-caption">Nowoczesny sprzęt – wykrywamy wszystko!</div>
+                </div>
+                <div class="price-card anim-in">
+                    <div class="slider-wrap">
+                        <div class="slider-btns">
+                            <button class="active" onclick="showSliderImg(this, 2, 0)">Przed</button>
+                            <button onclick="showSliderImg(this, 2, 1)">Po</button>
+                        </div>
+                        <img src="https://images.unsplash.com/photo-1518717758536-85ae29035b6d?auto=format&fit=crop&w=400&q=80" alt="Klimatyzacja przed" class="slider-img-2">
+                        <img src="https://images.unsplash.com/photo-1464037866556-6812c9d1c72e?auto=format&fit=crop&w=400&q=80" alt="Klimatyzacja po" style="display:none;" class="slider-img-2">
+                    </div>
+                    <h4>Serwis klimatyzacji</h4>
+                    <p>Napełnienie, ozonowanie, sprawdzenie</p>
+                    <div class="price">od 150 zł</div>
+                    <div class="price-caption">Czyste powietrze, 100% chłodzenia!</div>
+                </div>
+                <div class="price-card anim-in">
+                    <div class="slider-wrap">
+                        <div class="slider-btns">
+                            <button class="active" onclick="showSliderImg(this, 3, 0)">Przed</button>
+                            <button onclick="showSliderImg(this, 3, 1)">Po</button>
+                        </div>
+                        <img src="https://images.unsplash.com/photo-1470790376778-a9fbc86d70e2?auto=format&fit=crop&w=400&q=80" alt="Klocki hamulcowe przed" class="slider-img-3">
+                        <img src="https://images.unsplash.com/photo-1470790376778-a9fbc86d70e2?auto=format&fit=crop&w=400&q=80" alt="Klocki hamulcowe po" style="display:none;" class="slider-img-3">
+                    </div>
+                    <h4>Wymiana klocków hamulcowych</h4>
+                    <p>Komplet przednia oś (robocizna)</p>
+                    <div class="price">od 90 zł</div>
+                    <div class="price-caption">Bezpieczeństwo i niezawodność!</div>
+                </div>
+                <div class="price-card anim-in">
+                    <div class="slider-wrap">
+                        <div class="slider-btns">
+                            <button class="active" onclick="showSliderImg(this, 4, 0)">Przed</button>
+                            <button onclick="showSliderImg(this, 4, 1)">Po</button>
+                        </div>
+                        <img src="https://images.unsplash.com/photo-1464037866556-6812c9d1c72e?auto=format&fit=crop&w=400&q=80" alt="Rozrusznik przed" class="slider-img-4">
+                        <img src="https://images.unsplash.com/photo-1518717758536-85ae29035b6d?auto=format&fit=crop&w=400&q=80" alt="Rozrusznik po" style="display:none;" class="slider-img-4">
+                    </div>
+                    <h4>Regeneracja rozrusznika/alternatora</h4>
+                    <p>Demontaż + naprawa + montaż</p>
+                    <div class="price">od 180 zł</div>
+                    <div class="price-caption">Sprawny start i pewność każdego dnia!</div>
+                </div>
+            </div>
+        </section>
+        <section class="section" id="about">
+            <div class="about-section">
+                <div class="about-img">
+                    <img src="https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop
+                    <img src="https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=800&q=80" alt="Założyciele warsztatu">
+                </div>
+                <div class="about-txt">
+                    <h2>O warsztacie</h2>
+                    <p>Piotr & Marian to rodzinny warsztat samochodowy z wieloletnią tradycją i zaufaniem tysięcy klientów. Stawiamy na indywidualne podejście, nowoczesny sprzęt oraz transparentność kosztów. Gwarantujemy szybką obsługę i rzetelną wycenę każdej naprawy.<br> Pracujemy od poniedziałku do soboty – zapraszamy na bezpłatną konsultację!</p>
+                </div>
+            </div>
+        </section>
+        <section class="section" id="contact">
+            <div class="contact">
+                <h3>Kontakt</h3>
+                <div class="contact-info">
+                    <b>Warsztat Piotr & Marian</b><br>
+                    ul. Mechaników 7, 25-700 Kielce<br>
+                    Tel: <a href="tel:+48500999111">500 999 111</a><br>
+                    Email: <a href="mailto:biuro@piotrmarian.pl">biuro@piotrmarian.pl</a>
+                </div>
+                <div style="margin:18px auto;max-width:350px;">
+                    <form class="contact-form" autocomplete="off" onsubmit="event.preventDefault();alert('Dziękujemy za wiadomość! Skontaktujemy się wkrótce.');this.reset();">
+                        <input type="text" placeholder="Imię i nazwisko" required>
+                        <input type="email" placeholder="Adres e-mail" required>
+                        <textarea rows="3" placeholder="Wiadomość" required></textarea>
+                        <button type="submit">Wyślij</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+    <footer>
+        <div class="footer-links">
+            <a href="#" onclick="showSection('home', event)">Strona główna</a> |
+            <a href="#" onclick="showSection('services', event)">Usługi</a> |
+            <a href="#" onclick="showSection('price', event)">Cennik</a> |
+            <a href="#" onclick="showSection('about', event)">O nas</a> |
+            <a href="#" onclick="showSection('contact', event)">Kontakt</a>
+        </div>
+        <div>© 2025 Warsztat Samochodowy Piotr & Marian</div>
+        <div style="font-size:13px;margin-top:4px;">Projekt profesjonalny z animacjami – wykonanie ChatGPT</div>
+    </footer>
+    <script>
+        // Sekcje SPA (płynne przełączanie + animacje)
+        function showSection(id, e) {
+            if(e) e.preventDefault();
+            document.querySelectorAll('.section').forEach(sec => sec.classList.remove('active', 'anim-in'));
+            let newSec = document.getElementById(id);
+            newSec.classList.add('active');
+            setTimeout(()=>{ newSec.classList.add('anim-in'); },10);
+            document.querySelectorAll('nav ul li a').forEach(a => a.classList.remove('active'));
+            document.querySelectorAll('nav ul li a').forEach(a => {
+                if(a.getAttribute('onclick') && a.getAttribute('onclick').includes("showSection('" + id + "'")) a.classList.add('active');
+            });
+            window.scrollTo({top:0, behavior:'smooth'});
+        }
+        // Slider przed/po dla cennika
+        function showSliderImg(btn, idx, imgIdx) {
+            // idx = numer karty, imgIdx = 0/przed, 1/po
+            let cards = document.querySelectorAll('.price-card');
+            let imgs = cards[idx].querySelectorAll('.slider-img-' + idx);
+            imgs.forEach((im, i) => im.style.display = i === imgIdx ? '' : 'none');
+            // aktywne przyciski
+            let btns = cards[idx].querySelectorAll('.slider-btns button');
+            btns.forEach((b, i) => b.classList.toggle('active', i === imgIdx));
+        }
+    </script>
+</body>
+</html>
